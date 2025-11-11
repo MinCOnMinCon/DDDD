@@ -3,20 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Creature : MonoBehaviour
+public abstract class Creature : MonoBehaviour
 {
     private int maxHp = 100;
     private int initDiceCount = 7;
     private int initPenaltyDice = 0;
 
-    protected int health;
+    public int health { get; protected set; }
     protected int totalDiceCount;
     protected int tempDiceCount = 0; // i
     protected int penaltyDiceCount;
 
     // 공격/방어 수치 (매 턴 초기화됨)
-    protected int attackValue = 0;
-    protected int defenseValue = 0;
+    public int attackValue { get; protected set; }
+    public int defenseValue { get; protected set; }
+
+    protected int damagedPrevTurn = 0;//이전턴에 준 데미지
+    protected int attackPrevTurn = 0;//이전턴에 가한 데미지
 
     // 주사위 관련
     // [0]: 총합, [1]~[6]: 각 눈금의 비율 (플레이어/적 특성에 따라 다름)
@@ -28,24 +31,8 @@ public class Creature : MonoBehaviour
     // protected Dictionary<HandObject, int> activeHands = new Dictionary<HandObject, int>();
     // protected List<BuffDebuff> buffDebuffs = new List<BuffDebuff>();
 
-    // 생성자 (기본값 설정)
-    public Creature()
-    {
-        health = maxHp;
-        totalDiceCount = initDiceCount;
-        penaltyDiceCount = initPenaltyDice;
-        diceResults = new int[7];
-        diceRatios = new int[7];
-        diceRatios[0] = 6;
-        for(int i = 1; i < 7;i++)
-        {
-            diceRatios[i] = 1;
-            diceResults[i] = 0; 
-        
-        }
-        // this.activeHands = new Dictionary<HandObject, int>();
-        // this.buffDebuffs = new List<BuffDebuff>();
-    }
+    public Creature enemy { get; protected set; }
+    
     
     public void ResetTurnValues() // 턴 종료시 초기화해야 할 데이터 초기화
     {
@@ -73,7 +60,7 @@ public class Creature : MonoBehaviour
         }
                     
     }
-    protected void ApplyDice()
+    protected virtual void ApplyDice()
     {
         // 1 - doom
         penaltyDiceCount += diceResults[1];
@@ -90,8 +77,34 @@ public class Creature : MonoBehaviour
 
         // 6 - destiny (Player 클래스에서 처리)
     }
+
+
+    public void Attack()
+    {
+        attackPrevTurn += enemy.TakeDamage(attackValue);
+    }
+   
+    // 파라미터로 온 damage에서 deffenseValue를 뺀 값만큼 데미지를 입음
+    // 입은 데미지만큼 damagedPrevTurn에 저장하고 리턴함 => 리턴한 건 적의 attackPrevTurn에 저장
+    public int TakeDamage(int damage) 
+    {
+        if(damage > 0)
+        {
+            damagedPrevTurn += damage - defenseValue;
+            health -= damagedPrevTurn;
+            return damagedPrevTurn;
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    // 적 객체의 스크립트를 가져오는 함수. player는 monster의 스크립트를, monster는 player의 스크립트를 가져온다.
+    // Player에게 적은 Monster, Monster에게 적은 Player
+    protected abstract Creature FindEnemy();
+    protected abstract void EnemyActionStart();
     // Start is called before the first frame update
-    void Awake()
+    protected virtual void Awake()
     {
         health = maxHp;
         totalDiceCount = initDiceCount;
@@ -101,15 +114,12 @@ public class Creature : MonoBehaviour
         diceRatios[0] = 6;
         for (int i = 1; i < 7; i++)
         {
+  
             diceRatios[i] = 1;
             diceResults[i] = 0;
 
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }
