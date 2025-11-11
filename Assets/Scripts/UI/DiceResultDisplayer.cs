@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class DiceResultDisplayer : MonoBehaviour
 {
-   
+
     [SerializeField]
     private TMPro.TextMeshProUGUI[] diceCountText = new TMPro.TextMeshProUGUI[7];
-    
+
     public void ResultUpdate(int[] results)
     {
        
@@ -16,5 +16,7 @@ public class DiceResultDisplayer : MonoBehaviour
             diceCountText[i].text = results[i].ToString();
         }
     }
+
+    
     
 }
