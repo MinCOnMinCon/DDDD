@@ -9,9 +9,9 @@ public class Player : Creature
     [SerializeField]
     private DiceResultDisplayer DiceResultDisplayer;
     [SerializeField]
-    private DefenseValBar DefenseValBar;
+    private DefenseValIndicator DefenseValBar;
     [SerializeField]
-    private AttackValBar AttackValBar;
+    private AttackValIndicator AttackValBar;
     public void RollButtonClicked() //굴리기 버튼 눌렀을 때 실행되는 것
     {
         // 아무때나 눌리는 거 방지할 플래그 필요
