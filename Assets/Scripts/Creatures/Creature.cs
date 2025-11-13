@@ -12,7 +12,7 @@ public abstract class Creature : MonoBehaviour
     public int health { get; protected set; }
     protected int totalDiceCount;
     protected int tempDiceCount = 0; // i
-    protected int penaltyDiceCount;
+    public int penaltyDiceCount { get; protected set; }
 
     // 공격/방어 수치 (매 턴 초기화됨)
     public int attackValue { get; protected set; }

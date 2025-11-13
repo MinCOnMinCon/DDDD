@@ -4,14 +4,12 @@ using UnityEngine;
 
 public class Player : Creature
 {
-    private int destinyTokenCount= 0;
+    public int destinyTokenCount { get; private set; }
 
     [SerializeField]
-    private DiceResultDisplayer DiceResultDisplayer;
+    private DiceResultDisplayer diceResultDisplayer;
     [SerializeField]
-    private DefenseValIndicator DefenseValBar;
-    [SerializeField]
-    private AttackValIndicator AttackValBar;
+    private Indicator indicator;
     public void RollButtonClicked() //굴리기 버튼 눌렀을 때 실행되는 것
     {
         // 아무때나 눌리는 거 방지할 플래그 필요
@@ -28,8 +26,7 @@ public class Player : Creature
         base.ApplyDice();
 
         destinyTokenCount += diceResults[6]; // 운명 토큰 획득
-        AttackValBar.AttackValUpdate(attackValue, enemy.health); // 공격 수치를 나타내는 스크롤 바 업데이트
-        DefenseValBar.DefenseValUpdate(defenseValue, health); // 방어 수치를 나타내는 스크롤 바 업데이트
+        indicator.IndicatorUpdate(this);
     }
     protected override void RollDice()
     {
@@ -38,7 +35,8 @@ public class Player : Creature
             base.RollDice();
         }
         Debug.Log("버튼 클릭");
-        DiceResultDisplayer.ResultUpdate(diceResults);
+        diceResultDisplayer.ResultUpdate(diceResults);
+        
 
     }
     protected override Creature FindEnemy()
@@ -54,12 +52,13 @@ public class Player : Creature
     {
         base.Awake();
         enemy = FindEnemy();
+        destinyTokenCount = 0;
         Debug.Log(enemy);
     }
     void Start()
     {
-       
-        DiceResultDisplayer.ResultUpdate(diceResults);
+        indicator.IndicatorUpdate(this);
+        diceResultDisplayer.ResultUpdate(diceResults);
     }
     // Update is called once per frame
     void Update()
