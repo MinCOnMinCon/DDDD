@@ -9,14 +9,15 @@ public abstract class Creature : MonoBehaviour
     private int initDiceCount = 7;
     private int initPenaltyDice = 0;
 
-    public int health { get; protected set; }
+    public int health { get;  set; }
     protected int totalDiceCount;
-    protected int tempDiceCount = 0; // i
-    public int penaltyDiceCount { get; protected set; }
+    public int tempDiceCount {get; set;} // i
+    public int penaltyDiceCount { get; set; }
 
     // 공격/방어 수치 (매 턴 초기화됨)
-    public int attackValue { get; protected set; }
-    public int defenseValue { get; protected set; }
+    public int attackValue { get; set; }
+    public int defenseValue { get;  set; }
+    public int predictionValue { get; set; }
 
     protected int damagedPrevTurn = 0;//이전턴에 준 데미지
     protected int attackPrevTurn = 0;//이전턴에 가한 데미지
@@ -25,7 +26,7 @@ public abstract class Creature : MonoBehaviour
     // [0]: 총합, [1]~[6]: 각 눈금의 비율 (플레이어/적 특성에 따라 다름)
     protected int[] diceRatios;
     // [0] 미사용, [1]~[6]: 이번 턴에 나온 해당 눈금의 개수 (매 턴 초기화됨)
-    protected int[] diceResults;
+    public int[] diceResults { get; protected set; }
 
     // 족보 및 버프
     // protected Dictionary<HandObject, int> activeHands = new Dictionary<HandObject, int>();
@@ -49,7 +50,7 @@ public abstract class Creature : MonoBehaviour
         int eye = Random.Range(0, diceRatios[0]);
         int cumulativeValue = 0;
 
-        for(int i = 1; i < 7; i++)
+        for(int i = 1; i < totalDiceCount + tempDiceCount; i++)
         {
             cumulativeValue += diceRatios[i];
             if(cumulativeValue > eye)
@@ -109,6 +110,7 @@ public abstract class Creature : MonoBehaviour
         health = maxHp;
         totalDiceCount = initDiceCount;
         penaltyDiceCount = initPenaltyDice;
+        tempDiceCount = 0;
         diceResults = new int[7];
         diceRatios = new int[7];
         diceRatios[0] = 6;

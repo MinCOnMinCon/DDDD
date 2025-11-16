@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Player : Creature
 {
-    public int destinyTokenCount { get; private set; }
+    public int destinyTokenCount { get;  set; }
+    public int attackCount { get;  set; }
+    public int tempAttackCount { get;  set; }
 
     [SerializeField]
     private DiceResultDisplayer diceResultDisplayer;
@@ -15,7 +17,8 @@ public class Player : Creature
         // 아무때나 눌리는 거 방지할 플래그 필요
         RollDice();
         ApplyDice();
-        //destinySelect() - 운명토큰 얼마나 써서 몇개 돌릴지 결정
+        //PenaltyApply() - 패널티 주사위 적용
+        //DestinySelect() - 운명토큰 얼마나 써서 몇개 돌릴지 결정
         //ApplyJokbo(); - 족보 적용
         //Attack(); - 적 공격
         //Enemy.EnemyActionStart - 적 행동 시작
