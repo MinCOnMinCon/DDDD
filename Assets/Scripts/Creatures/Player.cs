@@ -12,6 +12,7 @@ public class Player : Creature
     private DiceResultDisplayer diceResultDisplayer;
     [SerializeField]
     private Indicator indicator;
+    private HandsManager handsManager;
     public void RollButtonClicked() //굴리기 버튼 눌렀을 때 실행되는 것
     {
         // 아무때나 눌리는 거 방지할 플래그 필요
@@ -19,7 +20,7 @@ public class Player : Creature
         ApplyDice();
         //PenaltyApply() - 패널티 주사위 적용
         //DestinySelect() - 운명토큰 얼마나 써서 몇개 돌릴지 결정
-        //ApplyJokbo(); - 족보 적용
+        handsManager.ApplyAllHands(this, (Monster)enemy); //- 족보 적용
         //Attack(); - 적 공격
         //Enemy.EnemyActionStart - 적 행동 시작
     }
@@ -56,6 +57,7 @@ public class Player : Creature
         base.Awake();
         enemy = FindEnemy();
         destinyTokenCount = 0;
+        handsManager = GetComponent<HandsManager>();
         Debug.Log(enemy);
     }
     void Start()

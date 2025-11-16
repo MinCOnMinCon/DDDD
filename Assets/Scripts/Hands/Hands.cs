@@ -9,7 +9,7 @@ public abstract class Hands : ScriptableObject
 
     public string handsName { get; protected set; }
 
-    protected string description;
+    public string description { get; protected set; }
     public HandsType type { get; protected set; } // 족보 유형 (발동 순서)
 
  

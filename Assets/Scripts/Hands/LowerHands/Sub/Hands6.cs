@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Hands6", menuName = "Hands/Instant/Hands6")]
+[CreateAssetMenu(fileName = "Hands6", menuName = "Hands/Sub/Hands6")]
 public class Hands6 : Hands
 {
     private void Awake()

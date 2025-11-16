@@ -1,11 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class HandsManager : MonoBehaviour
 {
+    
+    public Hands hands1;
     public class HandsInstance{
-        public HandsInstance(Hands hand, bool isActive, HandUI ui)
+        public HandsInstance(Hands hand, bool isActive, HandsUI ui)
         {
             this.hand = hand;
             this.isActive = isActive;
@@ -13,15 +16,18 @@ public class HandsManager : MonoBehaviour
         }
         public Hands hand;
         public bool isActive;
-        //public HandUI ui;
+        public HandsUI ui;
     }
+    public event Action<HandsInstance> onHandsAdded;
+    public event Action<HandsInstance> onHandsExecuted;
+
     // 족보 유형별 리스트 
     // 족보가 획득될 때 AddHands 함수를 통해 이곳에 추가됩니다.
-    private List<Hands> subHandsList = new List<Hands>();
-    private List<Hands> instantHandsList = new List<Hands>();
-    private List<Hands> valueScaleHandsList = new List<Hands>();
-    private List<Hands> valueConditionHandsList = new List<Hands>();
-    private List<Hands> nextTurnHandsList = new List<Hands>();
+    private List<HandsInstance> subHandsList = new List<HandsInstance>();
+    private List<HandsInstance> instantHandsList = new List<HandsInstance>();
+    private List<HandsInstance> valueScaleHandsList = new List<HandsInstance>();
+    private List<HandsInstance> valueConditionHandsList = new List<HandsInstance>();
+    private List<HandsInstance> nextTurnHandsList = new List<HandsInstance>();
 
     public void ApplyAllHands(Player player, Monster enemy)
     {
@@ -43,6 +49,14 @@ public class HandsManager : MonoBehaviour
 
         Debug.Log("--- 족보 적용 완료 ---");
     }
+    public void ResetAllHands()
+    {
+        ResetHandsList(subHandsList);
+        ResetHandsList(instantHandsList);
+        ResetHandsList(valueScaleHandsList);
+        ResetHandsList(valueConditionHandsList);
+        ResetHandsList(nextTurnHandsList);
+    }
 
     // 외부에서 족보를 획득했을 때 호출하여 리스트에 추가합니다.
     public void AddHand(Hands hand)
@@ -52,35 +66,50 @@ public class HandsManager : MonoBehaviour
         switch (hand.type)
         {
             case Hands.HandsType.Sub:
-                subHandsList.Add(hand);
+                subHandsList.Add(inst);
                 break;
             case Hands.HandsType.Instant:
-                instantHandsList.Add(hand);
+                instantHandsList.Add(inst);
                 break;
             case Hands.HandsType.ValueScale:
-                valueScaleHandsList.Add(hand);
+                valueScaleHandsList.Add(inst);
                 break;
             case Hands.HandsType.ValueCondition:
-                valueConditionHandsList.Add(hand);
+                valueConditionHandsList.Add(inst);
                 break;
             case Hands.HandsType.NextTurn:
-                nextTurnHandsList.Add(hand);
+                nextTurnHandsList.Add(inst);
                 break;
         }
+        onHandsAdded?.Invoke(inst);
         Debug.Log($"족보 획득: {hand.handsName} ({hand.type} 리스트에 추가됨)");
     }
 
     // 족보 리스트를 순회하며 조건 체크 및 효과 실행
-    private void ExecuteHandsList(List<Hands> handsList, Player player, Monster enemy)
+    private void ExecuteHandsList(List<HandsInstance> handsList, Player player, Monster enemy)
     {
       
-        foreach (Hands hand in handsList)
+        foreach (HandsInstance handInst in handsList)
         {
          
-            if (hand.CheckCondition(player, enemy))
+            if (handInst.hand.CheckCondition(player, enemy))
             {
-                hand.ExecuteEffect(player, enemy);
+                handInst.hand.ExecuteEffect(player, enemy);
+                onHandsExecuted?.Invoke(handInst);
             }
         }
+    }
+
+    private void ResetHandsList(List<HandsInstance> handsList)
+    {
+        foreach (HandsInstance handsInst in handsList)
+        {
+            handsInst.ui.SetActive(false);
+        }
+    }
+
+    private void Start()
+    {
+        AddHand(hands1);
     }
 }
