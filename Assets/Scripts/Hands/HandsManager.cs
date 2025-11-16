@@ -7,6 +7,7 @@ public class HandsManager : MonoBehaviour
 {
     
     public Hands hands1;
+    public Hands hands2;
     public class HandsInstance{
         public HandsInstance(Hands hand, bool isActive, HandsUI ui)
         {
@@ -111,5 +112,18 @@ public class HandsManager : MonoBehaviour
     private void Start()
     {
         AddHand(hands1);
+        AddHand(hands2);
+        AddHand(hands1);
+        AddHand(hands2);
+        AddHand(hands1);
+        AddHand(hands2);
+        AddHand(hands1);
+        AddHand(hands2);
+        AddHand(hands1);
+        AddHand(hands2);
+        AddHand(hands1);
+        AddHand(hands2);
+        AddHand(hands1);
+        AddHand(hands2);
     }
 }

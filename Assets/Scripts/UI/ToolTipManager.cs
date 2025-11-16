@@ -5,27 +5,39 @@ using UnityEngine.UIElements;
 
 public class ToolTipManager : MonoBehaviour
 {
+
     public static ToolTipManager toolTipManager;
     [SerializeField] private GameObject toolTip;
     [SerializeField] private TMPro.TextMeshProUGUI description;
+    private bool isShowed;
 
     // Start is called before the first frame update
     private void Awake()
     {
         toolTipManager = this;
         toolTip.SetActive(false);
+        isShowed = false;
     }
 
-    public void ToolTipShow(string name, string des, Vector2 pos)
+    public void ToolTipShow(string name, string des)
     {
         description.text = $"{name}\n"+$"{des}";
+        isShowed = true;
         toolTip.SetActive(true);
-        toolTip.transform.position = pos;
+        
     }
 
     public void ToolTipHIde()
     {
-        Debug.Log("Aa");
+        isShowed = false;
         toolTip.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if (isShowed)
+        {
+            toolTip.transform.position = Input.mousePosition;
+        }
     }
 }

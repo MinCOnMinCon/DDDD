@@ -8,36 +8,30 @@ public class HandsUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField]
     private TMPro.TextMeshProUGUI handsName;
-    [SerializeField]
-    private TMPro.TextMeshProUGUI description;
+
+    private string description;
     
     // Start is called before the first frame update
     public void SetInfo(HandsManager.HandsInstance inst)
     {
-        handsName.text = inst.hand.handsName;
-        description.text = inst.hand.description;
+        handsName.text = "- " + inst.hand.handsName;
+        description = inst.hand.description;
     }
 
     public void SetActive(bool active)
     {
         if (active)
         {
-            handsName.fontMaterial.SetFloat("_OutlineWidth", 0.25f);
-            handsName.fontMaterial.SetColor("_OutlineColor", Color.yellow);
-            description.fontMaterial.SetFloat("_OutlineWidth", 0.25f);
-            description.fontMaterial.SetColor("_OutlineColor", Color.yellow);
+            handsName.color = Color.yellow;
         }
         else
         {
-            handsName.fontMaterial.SetFloat("_OutlineWidth", 0f);
-            handsName.fontMaterial.SetColor("_OutlineColor", Color.white);
-            description.fontMaterial.SetFloat("_OutlineWidth", 0f);
-            description.fontMaterial.SetColor("_OutlineColor", Color.white);
+            handsName.color = Color.white;
         }
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
-        ToolTipManager.toolTipManager.ToolTipShow(handsName.text, description.text, Input.mousePosition);
+        ToolTipManager.toolTipManager.ToolTipShow(handsName.text, description);
 
     }
     public void OnPointerExit(PointerEventData eventData)
