@@ -6,24 +6,24 @@ public class WhiteRider : Monster
 {
     public override void ActionStart()
     {
-        Debug.Log("AA");
+        string log = null;
         switch (patternNum) 
         {
             case 0:
                 enemy.penaltyDiceCount += 1;
                 attackValue = 10;
                 defenseValue = 10;
-                Debug.Log("----패턴 1----");
+                log += $"{this.name}는 쥐들을 풀려한다..";
                 break;
             case 1:
                 enemy.penaltyDiceCount += 2;
                 attackValue = 8;
-                Debug.Log("----패턴 2----");
+                log += $"{this.name}쪽으로 초록색 안개가 모인다..";
                 break;
             case 2:
                 enemy.defenseValue -= 10;
                 attackValue = 14;
-                Debug.Log("----패턴 3----");
+                log += $"{this.name}는 시커먼 촉을 가진 화살을 들었다..";
                 break;
         }
         if(patternNum > 1)
@@ -34,9 +34,14 @@ public class WhiteRider : Monster
         {
             patternNum++;
         }
-            Debug.Log($"{patternNum}.");
+        LogEvent.onLog?.Invoke(log); 
     }
     // Start is called before the first frame update
+    protected override void Awake()
+    {
+        base.Awake();
+        name = "\"역병\"";
+    }
     void Start()
     {
         

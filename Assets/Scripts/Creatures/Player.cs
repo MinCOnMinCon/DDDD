@@ -6,6 +6,7 @@ using UnityEngine;
 public class Player : Creature
 {
     private int initDestinyTokenCount =  0;
+    
     public int destinyTokenCount { get;  set; }
     public int attackCount { get;  set; }
     public int tempAttackCount { get;  set; }
@@ -36,6 +37,9 @@ public class Player : Creature
 
     protected override void ApplyDice()
     {
+        LogEvent.onLog?.Invoke("주사위의 결과는...");
+        LogEvent.onLog?.Invoke($"주사위1:{diceResults[1]}개 | 주사위2:{diceResults[2]}개 | 주사위3:{diceResults[3]}개 |  " +
+           $"주사위4:{diceResults[4]}개 | 주사위5:{diceResults[5]}개 | 주사위6:{diceResults[6]}개");
         base.ApplyDice();
 
         destinyTokenCount += diceResults[6]; // 운명 토큰 획득
@@ -47,8 +51,8 @@ public class Player : Creature
         {
             base.RollDice();
         }
-        LogEvent.onLog?.Invoke($"주사위1:{diceResults[1]}개 | 주사위2:{diceResults[2]}개 | 주사위3:{diceResults[3]}개 |  " +
-            $"주사위4:{diceResults[4]}개 | 주사위5:{diceResults[5]}개 | 주사위6:{diceResults[6]}개");
+        LogEvent.onLog?.Invoke("당신은 주사위를 굴렸다...");
+        
 
 
 
@@ -91,7 +95,7 @@ public class Player : Creature
         enemy = FindEnemy();
         destinyTokenCount = 0;
         handsManager = GetComponent<HandsManager>();
-        Debug.Log(enemy);
+        name = "당신";
     }
 
     void Start() // awake로 하면 업데이트 순서 꼬여서 start에 있는 애들임

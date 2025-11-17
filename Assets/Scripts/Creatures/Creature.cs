@@ -6,6 +6,7 @@ using UnityEngine;
 
 public abstract class Creature : MonoBehaviour
 {
+ 
     private int maxHp = 100;
     private int initDiceCount = 7;
     private int initPenaltyDice = 0;
@@ -98,6 +99,8 @@ public abstract class Creature : MonoBehaviour
             diceResults[eye]--;
             Debug.Log($"{eye}의 눈이 1 감소");
         }
+        Debug.Log("당신은 패널티 주사위를 굴렸다...");
+
     }
     protected virtual void ApplyDice()
     {
@@ -109,6 +112,7 @@ public abstract class Creature : MonoBehaviour
         penaltyDiceCount += diceResults[1];
         attackValue += diceResults[1] * 2;
         defenseValue += diceResults[1] * 2;
+        
 
         // 2, 3 - shiled
         defenseValue += diceResults[2] * 2;
@@ -132,7 +136,9 @@ public abstract class Creature : MonoBehaviour
 
     public void Attack()
     {
+        LogEvent.onLog?.Invoke($"{this.name}은(는) 공격했다.");
         attackPrevTurn = enemy.TakeDamage(attackValue);// 이전 턴 데미지만 계산해야 하니 += 에서 =로 바꿈
+       
     }
    
     // 파라미터로 온 damage에서 deffenseValue를 뺀 값만큼 데미지를 입음
@@ -142,14 +148,15 @@ public abstract class Creature : MonoBehaviour
         damagedPrevTurn = damage - defenseValue; // 이전 턴 데미지만 계산해야 하니 += 에서 =로 바꿈
         if (damagedPrevTurn > 0)
         {
-        
+
             health -= damagedPrevTurn;
-            Debug.Log($"health = {health} | {this.name}");
+            LogEvent.onLog?.Invoke($"{this.name}은(는) {damagedPrevTurn}의 데미지를 받았다.");
             IsDied();
             return damagedPrevTurn;
         }
         else
         {
+            LogEvent.onLog?.Invoke($"{this.name}은(는) 아무런 데미지도 받지 않았다.");
             return 0;
         }
     }
