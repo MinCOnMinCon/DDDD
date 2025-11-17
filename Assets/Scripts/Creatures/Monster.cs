@@ -12,6 +12,12 @@ public class Monster : Creature
     {
 
     }
+
+    private void Awake()
+    {
+        base.Awake();
+        FindEnemy();
+    }
     // Start is called before the first frame update
     void Start()
     {

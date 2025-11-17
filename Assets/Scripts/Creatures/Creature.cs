@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,7 +12,7 @@ public abstract class Creature : MonoBehaviour
 
     public int health { get;  set; }
     protected int totalDiceCount;
-    public int tempDiceCount {get; set;} // i
+    public int tempDiceCount {get; set;} 
     public int penaltyDiceCount { get; set; }
 
     // 공격/방어 수치 (매 턴 초기화됨)
@@ -19,7 +20,7 @@ public abstract class Creature : MonoBehaviour
     public int defenseValue { get;  set; }
     public int predictionValue { get; set; }
 
-    protected int damagedPrevTurn = 0;//이전턴에 준 데미지
+    protected int damagedPrevTurn = 0;//이전턴에 받은 데미지
     protected int attackPrevTurn = 0;//이전턴에 가한 데미지
 
     // 주사위 관련
@@ -27,6 +28,7 @@ public abstract class Creature : MonoBehaviour
     protected int[] diceRatios;
     // [0] 미사용, [1]~[6]: 이번 턴에 나온 해당 눈금의 개수 (매 턴 초기화됨)
     public int[] diceResults { get; protected set; }
+    
 
     // 족보 및 버프
     // protected Dictionary<HandObject, int> activeHands = new Dictionary<HandObject, int>();
@@ -35,7 +37,7 @@ public abstract class Creature : MonoBehaviour
     public Creature enemy { get; protected set; }
     
     
-    public void ResetTurnValues() // 턴 종료시 초기화해야 할 데이터 초기화
+    public virtual void ResetTurnValues() // 턴 종료시 초기화해야 할 데이터 초기화
     {
         attackValue = 0;
         defenseValue = 0;
@@ -45,9 +47,22 @@ public abstract class Creature : MonoBehaviour
         }
         tempDiceCount = 0;
     }
+    public virtual void ResetCombatValues()// 전투 종료시 초기화해야 할 데이터 초기화
+    {
+        attackValue = 0;
+        defenseValue = 0;
+        for (int i = 1; i < 7; i++)
+        {
+            this.diceResults[i] = 0;
+        }
+        tempDiceCount = 0;
+        totalDiceCount = initDiceCount;
+        penaltyDiceCount = initPenaltyDice;
+    }
+
     protected virtual void RollDice() // 주어진 diceRatios 확률로 단일 주사위를 굴려 나온 눈을 diceResults에 저장
     {
-        int eye = Random.Range(0, diceRatios[0]);
+        int eye = UnityEngine.Random.Range(0, diceRatios[0]);
         int cumulativeValue = 0;
 
         for(int i = 1; i < totalDiceCount + tempDiceCount; i++)
@@ -60,6 +75,16 @@ public abstract class Creature : MonoBehaviour
             }
         }
                     
+    }
+    protected void RollPenaltyDice()
+    {
+        for(int i = 0; i <  penaltyDiceCount; i++)
+        {
+            int eye = UnityEngine.Random.Range(1, 7);
+
+            diceResults[eye]--;
+            Debug.Log($"{eye}의 눈이 1 감소");
+        }
     }
     protected virtual void ApplyDice()
     {

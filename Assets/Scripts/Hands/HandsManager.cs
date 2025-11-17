@@ -117,13 +117,6 @@ public class HandsManager : MonoBehaviour
         AddHand(hands2);
         AddHand(hands1);
         AddHand(hands2);
-        AddHand(hands1);
-        AddHand(hands2);
-        AddHand(hands1);
-        AddHand(hands2);
-        AddHand(hands1);
-        AddHand(hands2);
-        AddHand(hands1);
-        AddHand(hands2);
+       
     }
 }
