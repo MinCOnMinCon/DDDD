@@ -13,17 +13,17 @@ public class WhiteRider : Monster
                 enemy.penaltyDiceCount += 1;
                 attackValue = 10;
                 defenseValue = 10;
-                log += $"{this.name}는 쥐들을 풀려한다..";
+                log += $"{this.name}는 쥐들을 풀려한다.. | 패널티 주사위 +1";
                 break;
             case 1:
                 enemy.penaltyDiceCount += 2;
                 attackValue = 8;
-                log += $"{this.name}쪽으로 초록색 안개가 모인다..";
+                log += $"{this.name}쪽으로 초록색 안개가 모인다.. | 패널티 주사위 +2";
                 break;
             case 2:
                 enemy.defenseValue -= 10;
                 attackValue = 14;
-                log += $"{this.name}는 시커먼 촉을 가진 화살을 들었다..";
+                log += $"{this.name}는 시커먼 촉을 가진 화살을 들었다.. | 방어 수치 -10";
                 break;
         }
         if(patternNum > 1)

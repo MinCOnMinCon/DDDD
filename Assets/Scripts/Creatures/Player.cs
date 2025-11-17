@@ -16,25 +16,35 @@ public class Player : Creature
     [SerializeField]
     private Indicator indicator;
     private HandsManager handsManager;
-    public void RollButtonClicked() //굴리기 버튼 눌렀을 때 실행되는 것
+
+   
+    IEnumerator MyRoutine()
     {
         // 아무때나 눌리는 거 방지할 플래그 필요
         enemy.ActionStart(); //- 적의 행동 보여줌. 
+        yield return new WaitForSeconds(2f);
         RollDice();// 주사위 굴리기
         RollPenaltyDice();//- 패널티 주사위 굴리기
         handsManager.ApplySubHands(this, (Monster)enemy); // 서브 족보 적용
+        yield return new WaitForSeconds(2f);
         ApplyDice(); // 주사위 결과보고 각 눈의 효과 적용
         diceResultDisplayer.ResultUpdate(diceResults); // 주사위 결과를 UI에 업데이트
+        yield return new WaitForSeconds(2f);
         //DestinySelect() //- 운명토큰 얼마나 써서 몇개 돌릴지 결정
         handsManager.ApplyFourHands(this, (Monster)enemy); //- 서브 족보외 족보들 적용, 
-        
+
         Attack(); //- 적을 공격
         enemy.Attack(); // - 적의 공격
         indicator.IndicatorUpdate(this);
-        ResetTurnValues(); // 턴에 초기화해야 할 값 초기화 근데 지금 넣으면 HandsUI의 하이라이트가 바로 꺼짐
+        ResetTurnValues(); // 턴에 초기화해야 할 값 초기화 
+    }
+    
+    public void RollButtonClicked() //굴리기 버튼 눌렀을 때 실행되는 것
+    {
+        StartCoroutine(MyRoutine());
 
     }
-
+    
     protected override void ApplyDice()
     {
         LogEvent.onLog?.Invoke("주사위의 결과는...");
