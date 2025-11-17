@@ -30,12 +30,17 @@ public class HandsManager : MonoBehaviour
     private List<HandsInstance> valueConditionHandsList = new List<HandsInstance>();
     private List<HandsInstance> nextTurnHandsList = new List<HandsInstance>();
 
-    public void ApplyAllHands(Player player, Monster enemy)
+    public void ApplySubHands(Player player, Monster monster)
+    {
+        Debug.Log("--- sub 족보 적용 시작 ---");
+        ExecuteHandsList(subHandsList, player, monster);
+        Debug.Log("--- sub 족보 적용 완료 ---");
+    }
+    public void ApplyFourHands(Player player, Monster enemy)
     {
         Debug.Log("--- 족보 적용 시작 ---");
 
-        // 0. 서브 족보 적용
-        ExecuteHandsList(subHandsList, player, enemy);
+        
         // 1. 즉발형 족보 적용 
         ExecuteHandsList(instantHandsList, player, enemy);
 
@@ -96,6 +101,7 @@ public class HandsManager : MonoBehaviour
             if (handInst.hand.CheckCondition(player, enemy))
             {
                 handInst.hand.ExecuteEffect(player, enemy);
+           
                 onHandsExecuted?.Invoke(handInst);
             }
         }

@@ -28,6 +28,7 @@ public class HandsUIManager : MonoBehaviour
     }
     private void HighlightUI(HandsManager.HandsInstance inst)
     {
+  
         inst.ui.SetActive(true);
     }
 }

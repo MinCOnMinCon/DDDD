@@ -4,19 +4,22 @@ using UnityEngine;
 
 public class Monster : Creature
 {
+    protected int patternNum;
     protected override Creature FindEnemy()
     {
         return GameObject.FindWithTag("Player").GetComponent<Player>();
+        
     }
-    protected override void EnemyActionStart()
+
+    public override void ActionStart()
     {
-
+        ;
     }
-
-    private void Awake()
+    protected override void Awake()
     {
         base.Awake();
-        FindEnemy();
+        enemy = FindEnemy();
+        patternNum = 0;
     }
     // Start is called before the first frame update
     void Start()
