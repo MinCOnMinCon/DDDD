@@ -150,7 +150,7 @@ public abstract class Creature : MonoBehaviour
         {
 
             health -= damagedPrevTurn;
-            LogEvent.onLog?.Invoke($"{this.name}은(는) {damagedPrevTurn}의 데미지를 받았다.");
+            LogEvent.onLog?.Invoke($"{this.name}은(는) {damagedPrevTurn}의 데미지를 받았다.\n" + $"남은 체력 : {health}");
             IsDied();
             return damagedPrevTurn;
         }
