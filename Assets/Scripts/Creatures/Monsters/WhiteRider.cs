@@ -9,6 +9,7 @@ public class WhiteRider : Monster
         string log = null;
         switch (patternNum) 
         {
+            
             case 0:
                 enemy.penaltyDiceCount += 1;
                 attackValue = 10;
@@ -36,16 +37,15 @@ public class WhiteRider : Monster
         }
         LogEvent.onLog?.Invoke(log); 
     }
+    
     // Start is called before the first frame update
     protected override void Awake()
     {
         base.Awake();
         name = "\"역병\"";
     }
-    void Start()
-    {
-        
-    }
+
+  
 
     // Update is called once per frame
     void Update()

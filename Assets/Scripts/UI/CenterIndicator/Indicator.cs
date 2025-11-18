@@ -23,6 +23,7 @@ public class Indicator : MonoBehaviour
     {
         defenseValIndicator = transform.Find("DefenseValIndicator").GetComponent<DefenseValIndicator>();
         attackValIndicator = transform.Find("AttackValIndicator").GetComponent<AttackValIndicator>();
+        
         destinyAndPenaltyIndicator = transform.Find("DestinyAndPenaltyIndicator").GetComponent <DestinyAndPenaltyIndicator>();
         healthIndicator = transform.Find("HealthIndicator").GetComponent<HealthIndicator>();
     }

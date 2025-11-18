@@ -5,6 +5,7 @@ using UnityEngine;
 public class Monster : Creature
 {
     protected int patternNum;
+ 
     protected override Creature FindEnemy()
     {
         return GameObject.FindWithTag("Player").GetComponent<Player>();
@@ -13,18 +14,28 @@ public class Monster : Creature
 
     public override void ActionStart()
     {
-        ;
+        
+    }
+    protected override void Died() 
+    {
+        enemy.ResetCombatValues();
+        // 보상 주기
+        // 사망 멘트 출력
+        // 위 두 함수 코루틴으로 실행
+        MonsterManager.instance.DieMonster();
+        Destroy(gameObject);
     }
     protected override void Awake()
     {
         base.Awake();
-        enemy = FindEnemy();
+        
         patternNum = 0;
     }
-    // Start is called before the first frame update
+
     void Start()
     {
-        
+        UpdateEnemy();
+        Debug.Log(enemy.name);
     }
 
     // Update is called once per frame

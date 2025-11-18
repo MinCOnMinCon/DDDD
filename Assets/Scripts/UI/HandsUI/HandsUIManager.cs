@@ -13,7 +13,7 @@ public class HandsUIManager : MonoBehaviour
     {
         manager.onHandsAdded += CreateUI;
         manager.onHandsExecuted += HighlightUI;
-        Debug.Log("HandsUIManager Enabled");
+        
     }
     
     private void CreateUI(HandsManager.HandsInstance inst)

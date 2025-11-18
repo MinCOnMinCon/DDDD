@@ -28,7 +28,7 @@ public class LogManager : MonoBehaviour
     {
         logManager = this;
         scrollRect = GetComponentInChildren<ScrollRect>();
-        Debug.Log($"{scrollRect.name}");
+  
     }
     private void OnEnable()
     {

@@ -97,9 +97,9 @@ public abstract class Creature : MonoBehaviour
             int eye = UnityEngine.Random.Range(1, 7);
 
             diceResults[eye]--;
-            Debug.Log($"{eye}의 눈이 1 감소");
+    
         }
-        Debug.Log("당신은 패널티 주사위를 굴렸다...");
+     
 
     }
     protected virtual void ApplyDice()
@@ -124,14 +124,8 @@ public abstract class Creature : MonoBehaviour
 
         // 6 - destiny (Player 클래스에서 처리)
     }
-    
-    protected virtual void IsDied()
-    {
-        if(health <= 0)
-        {
-            isDied = true;
-        }
-    }
+
+    protected abstract void Died();
 
 
     public void Attack()
@@ -151,7 +145,10 @@ public abstract class Creature : MonoBehaviour
 
             health -= damagedPrevTurn;
             LogEvent.onLog?.Invoke($"{this.name}은(는) {damagedPrevTurn}의 데미지를 받았다.\n" + $"남은 체력 : {health}");
-            IsDied();
+            if (health <= 0)
+            {
+                Died();
+            }
             return damagedPrevTurn;
         }
         else
@@ -163,6 +160,11 @@ public abstract class Creature : MonoBehaviour
     // 적 객체의 스크립트를 가져오는 함수. player는 monster의 스크립트를, monster는 player의 스크립트를 가져온다.
     // Player에게 적은 Monster, Monster에게 적은 Player
     protected abstract Creature FindEnemy(); // 오로지 적을 찾아서 리턴으로 적 객체를 돌려주는 함수
+    public void UpdateEnemy()
+    {
+        enemy = FindEnemy();
+    }
+
     public abstract void ActionStart();
     // Start is called before the first frame update
     protected virtual void Awake()

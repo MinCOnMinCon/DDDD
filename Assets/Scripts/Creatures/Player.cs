@@ -20,6 +20,7 @@ public class Player : Creature
    
     IEnumerator MyRoutine()
     {
+        
         // 아무때나 눌리는 거 방지할 플래그 필요
         enemy.ActionStart(); //- 적의 행동 보여줌. 
         yield return new WaitForSeconds(2f);
@@ -47,12 +48,14 @@ public class Player : Creature
     
     protected override void ApplyDice()
     {
+        base.ApplyDice();
+        
+        
+
+        destinyTokenCount += diceResults[6]; // 운명 토큰 획득
         LogEvent.onLog?.Invoke("주사위의 결과는...");
         LogEvent.onLog?.Invoke($"주사위1:{diceResults[1]}개 | 주사위2:{diceResults[2]}개 | 주사위3:{diceResults[3]}개 |  " +
            $"주사위4:{diceResults[4]}개 | 주사위5:{diceResults[5]}개 | 주사위6:{diceResults[6]}개");
-        base.ApplyDice();
-
-        destinyTokenCount += diceResults[6]; // 운명 토큰 획득
         indicator.IndicatorUpdate(this);
     }
     protected override void RollDice()
@@ -102,20 +105,28 @@ public class Player : Creature
     protected override void Awake()
     {
         base.Awake();
-        enemy = FindEnemy();
+        
         destinyTokenCount = 0;
         handsManager = GetComponent<HandsManager>();
         name = "당신";
     }
-
-    void Start() // awake로 하면 업데이트 순서 꼬여서 start에 있는 애들임
+    protected override void Died()
+    {
+        LogEvent.onLog?.Invoke($"{this.name}은 죽었습니다...\n" + "GAMEOVER");
+        
+    }
+    public void UpdateIndicator()
     {
         indicator.IndicatorUpdate(this);
         diceResultDisplayer.ResultUpdate(diceResults);
     }
-    // Update is called once per frame
-    void Update()
+
+
+    void Start() // awake로 하면 업데이트 순서 꼬여서 start에 있는 애들임
     {
-        
+        UpdateEnemy();
+        UpdateIndicator();
     }
+   
+    
 }

@@ -10,14 +10,18 @@ public class StoryTextManager : MonoBehaviour
     private List<string> text = new List<string>();
     private int curSceneNum = 0;
     private int curIndex = 0;
+    [SerializeField]
+    private UIManager uiManager;
 
     private void Awake()
     {
         storyText = GetComponentInChildren<TextMeshProUGUI>();
-
+        
     }
     private void OnEnable()
     {
+        storyText.text = "";
+        text.Clear();
         curIndex = 0;
         switch (curSceneNum)
         {
@@ -69,8 +73,7 @@ public class StoryTextManager : MonoBehaviour
                 break;
         }
     }
-
-
+    
     public void onButtonClicked()
     {
         if(curIndex < text.Count)
@@ -81,15 +84,12 @@ public class StoryTextManager : MonoBehaviour
         else
         {
             curSceneNum++;
-            this.gameObject.SetActive(false);
+            uiManager.CombatConversion(curSceneNum - 1);
+            
         }
 
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
 }
