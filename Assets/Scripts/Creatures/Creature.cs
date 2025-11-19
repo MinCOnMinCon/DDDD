@@ -18,7 +18,12 @@ public abstract class Creature : MonoBehaviour
         set => _health = Mathf.Max(0,value);
     }
     protected int totalDiceCount;
-    public int tempDiceCount {get; set;} 
+    private int _tempDiceCount;
+    public int tempDiceCount
+    {
+        get => _health;
+        set => _health = Mathf.Max(-(initDiceCount-1), value);
+    }
     public int penaltyDiceCount { get; set; }
     public bool isDied { get; protected set; }
 
@@ -59,13 +64,14 @@ public abstract class Creature : MonoBehaviour
         {
             this.diceResults[i] = 0;
         }
-        tempDiceCount = 0;
+        
     }
     public virtual void ResetCombatValues()// 전투 종료시 초기화해야 할 데이터 초기화
     {
         ResetTurnValues();
         totalDiceCount = initDiceCount;
         penaltyDiceCount = initPenaltyDice;
+        tempDiceCount = 0;
     }
     public virtual void ResetGameValues()// 전투 종료시 초기화해야 할 데이터 초기화
     {

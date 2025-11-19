@@ -75,7 +75,7 @@ public class Player : Creature
     }
     protected override void RollDice()
     {
-        for (int i = 0; i  < totalDiceCount; i++)
+        for (int i = 0; i  < totalDiceCount + tempDiceCount; i++)
         {
             base.RollDice();
         }

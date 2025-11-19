@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WhiteRider : Monster
+public class RedRider : Monster
 {
     public override void ActionStart()
     {
@@ -11,22 +11,21 @@ public class WhiteRider : Monster
         {
             
             case 0:
-                enemy.penaltyDiceCount += 1;
-                attackValue = 10;
-                defenseValue = 10;
-                log += $"{this.name}는 쥐들을 풀려한다.. | 패널티 주사위+1\n" +
-                    $"{this.name}의 공격력 : {attackValue} | {this.name}의 방어력 : {defenseValue}";
+                attackValue = 20;
+
+                log += $"{this.name}은 대검을 크게 휘두른다.. \n" +
+                    $"{this.name}의 공격력 : {attackValue}";
                 break;
             case 1:
-                enemy.penaltyDiceCount += 2;
-                attackValue = 8;
-                log += $"{this.name}쪽으로 초록색 안개가 모인다.. | 패널티 주사위 +2\n" +
+                enemy.tempDiceCount -= 1;
+                attackValue = 10;
+                log += $"{this.name}의 말이 당신을 향해 돌진한다.. | 주사위 -1\n" +
                     $"{this.name}의 공격력 : {attackValue}";
                 break;
             case 2:
-                enemy.defenseValue -= 10;
-                attackValue = 14;
-                log += $"{this.name}는 시커먼 촉을 가진 화살을 들었다.. | 방어 수치 -10\n" +
+                enemy.health -= 10;
+                attackValue = 15;
+                log += $"{this.name}은 당신의 몸을 난자한다.. | 체력 -10\n" +
                     $"{this.name}의 공격력 : {attackValue}";
                 break;
         }
@@ -45,7 +44,7 @@ public class WhiteRider : Monster
     protected override void Awake()
     {
         base.Awake();
-        name = "\"역병\"";
+        name = "\"전쟁\"";
     }
 
   
