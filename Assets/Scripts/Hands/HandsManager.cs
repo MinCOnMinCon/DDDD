@@ -21,6 +21,7 @@ public class HandsManager : MonoBehaviour
     }
     public event Action<HandsInstance> onHandsAdded;
     public event Action<HandsInstance> onHandsExecuted;
+    public event Action<HandsInstance> onHandsDelete;
 
     // 족보 유형별 리스트 
     // 족보가 획득될 때 AddHands 함수를 통해 이곳에 추가됩니다.
@@ -90,6 +91,23 @@ public class HandsManager : MonoBehaviour
         onHandsAdded?.Invoke(inst);
         Debug.Log($"족보 획득: {hand.handsName} ({hand.type} 리스트에 추가됨)");
     }
+    public void DeleteAllHands()
+    {
+        DeleteHandsList(subHandsList);
+        DeleteHandsList(instantHandsList);
+        DeleteHandsList(valueScaleHandsList);
+        DeleteHandsList(valueConditionHandsList);
+        DeleteHandsList(nextTurnHandsList);
+
+    }
+    private void DeleteHandsList(List<HandsInstance> handsList)
+    {
+        foreach (HandsInstance hand in handsList)
+        {
+            onHandsDelete?.Invoke(hand);
+        }
+        handsList.Clear();
+    }
 
     // 족보 리스트를 순회하며 조건 체크 및 효과 실행
     private void ExecuteHandsList(List<HandsInstance> handsList, Player player, Monster enemy)
@@ -114,6 +132,7 @@ public class HandsManager : MonoBehaviour
             handsInst.ui.SetActive(false);
         }
     }
+    
 
     private void Start()
     {

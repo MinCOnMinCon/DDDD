@@ -46,8 +46,8 @@ public abstract class Creature : MonoBehaviour
     protected int[] diceRatios;
     // [0] 미사용, [1]~[6]: 이번 턴에 나온 해당 눈금의 개수 (매 턴 초기화됨)
     public int[] diceResults;
- 
 
+   
     public Creature enemy { get; protected set; }
     
     
@@ -62,6 +62,12 @@ public abstract class Creature : MonoBehaviour
         tempDiceCount = 0;
     }
     public virtual void ResetCombatValues()// 전투 종료시 초기화해야 할 데이터 초기화
+    {
+        ResetTurnValues();
+        totalDiceCount = initDiceCount;
+        penaltyDiceCount = initPenaltyDice;
+    }
+    public virtual void ResetGameValues()// 전투 종료시 초기화해야 할 데이터 초기화
     {
         attackValue = 0;
         defenseValue = 0;
@@ -139,11 +145,15 @@ public abstract class Creature : MonoBehaviour
     // 입은 데미지만큼 damagedPrevTurn에 저장하고 리턴함 => 리턴한 건 적의 attackPrevTurn에 저장
     public int TakeDamage(int damage) 
     {
+        
         damagedPrevTurn = damage - defenseValue; // 이전 턴 데미지만 계산해야 하니 += 에서 =로 바꿈
         if (damagedPrevTurn > 0)
         {
+            Debug.Log($"[Player Log] this == null? {this == null}, name 접근 가능? (시도하기 직전)");
+            Debug.Log($"GetInstanceID: {GetInstanceID()}");
 
             health -= damagedPrevTurn;
+              
             LogEvent.onLog?.Invoke($"{this.name}은(는) {damagedPrevTurn}의 데미지를 받았다.\n" + $"남은 체력 : {health}");
             if (health <= 0)
             {

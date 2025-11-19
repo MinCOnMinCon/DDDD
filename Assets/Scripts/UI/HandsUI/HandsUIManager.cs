@@ -6,14 +6,16 @@ public class HandsUIManager : MonoBehaviour
 {
     [SerializeField] private Transform content;    
     [SerializeField] private GameObject handsUIPrefab;
-    [SerializeField] private HandsManager manager;
+    private HandsManager manager;
 
     // Start is called before the first frame update
-    private void OnEnable()
+    
+    public void SetHandsManager(HandsManager inst)
     {
+        manager = inst;
         manager.onHandsAdded += CreateUI;
         manager.onHandsExecuted += HighlightUI;
-        
+        manager.onHandsDelete += DeleteUI;
     }
     
     private void CreateUI(HandsManager.HandsInstance inst)
@@ -25,6 +27,10 @@ public class HandsUIManager : MonoBehaviour
         ui.SetActive(false);
 
         inst.ui = ui;
+    }
+    private void DeleteUI(HandsManager.HandsInstance inst)
+    {
+        Destroy(inst.ui.gameObject);
     }
     private void HighlightUI(HandsManager.HandsInstance inst)
     {

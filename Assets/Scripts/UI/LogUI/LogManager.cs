@@ -38,6 +38,14 @@ public class LogManager : MonoBehaviour
     {
         LogEvent.onLog -= AddLog;
     }
+    public void ResetLog()
+    {
+        foreach(GameObject log in logs)
+        {
+            Destroy(log);
+        }
+        logs.Clear();
+    }
     private void AddLog(string msg)
     {
         GameObject newLog = Instantiate(logPrefab, content);

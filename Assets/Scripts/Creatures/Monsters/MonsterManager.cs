@@ -8,13 +8,18 @@ public class MonsterManager : MonoBehaviour
     [SerializeField]
     private UIManager uiManager;
     
+    
 
     [SerializeField]
     private List<GameObject> monsters = new List<GameObject>();
+    private GameObject curMonster;
     public void SpawnMonster(int sceneNum)
     {
-        
-        Instantiate(monsters[sceneNum], transform);
+        curMonster = Instantiate(monsters[sceneNum], transform);
+    }
+    public void DestroyMonster()
+    {
+        Destroy(curMonster);
     }
     public void DieMonster() 
     {

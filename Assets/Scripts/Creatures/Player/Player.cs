@@ -11,11 +11,12 @@ public class Player : Creature
     public int attackCount { get;  set; }
     public int tempAttackCount { get;  set; }
 
-    [SerializeField]
+    
     private DiceResultDisplayer diceResultDisplayer;
-    [SerializeField]
+    
     private Indicator indicator;
     private HandsManager handsManager;
+    private RollButtonConnector rollButtonConnector;
 
    
     IEnumerator MyRoutine()
@@ -33,11 +34,14 @@ public class Player : Creature
         yield return new WaitForSeconds(2f);
         //DestinySelect() //- 운명토큰 얼마나 써서 몇개 돌릴지 결정
         handsManager.ApplyFourHands(this, (Monster)enemy); //- 서브 족보외 족보들 적용, 
-
+        UpdateIndicator();
         Attack(); //- 적을 공격
         enemy.Attack(); // - 적의 공격
-        indicator.IndicatorUpdate(this);
+        
         ResetTurnValues(); // 턴에 초기화해야 할 값 초기화 
+        UpdateIndicator();
+
+
     }
     
     public void RollButtonClicked() //굴리기 버튼 눌렀을 때 실행되는 것
@@ -108,25 +112,51 @@ public class Player : Creature
         
         destinyTokenCount = 0;
         handsManager = GetComponent<HandsManager>();
+        rollButtonConnector = GetComponent<RollButtonConnector>();
         name = "당신";
+        GameObject.Find("HandsUI").GetComponent<HandsUIManager>().SetHandsManager(handsManager);
+
+
     }
     protected override void Died()
     {
-        LogEvent.onLog?.Invoke($"{this.name}은 죽었습니다...\n" + "GAMEOVER");
+        handsManager.DeleteAllHands();
+        PlayerManager.instance.DiePlayer();
         
     }
+    
     public void UpdateIndicator()
     {
         indicator.IndicatorUpdate(this);
         diceResultDisplayer.ResultUpdate(diceResults);
     }
+    public void ConnectUI()
+    {
+        diceResultDisplayer = GameObject.Find("DiceResults").GetComponent<DiceResultDisplayer>();
+        indicator = GameObject.Find("Indicator").GetComponent<Indicator>();
+        
+        rollButtonConnector.ConnectRollButton(this);
+    }
 
 
     void Start() // awake로 하면 업데이트 순서 꼬여서 start에 있는 애들임
     {
+        
         UpdateEnemy();
         UpdateIndicator();
     }
-   
-    
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            health -= 100;
+            TakeDamage(1);
+        }
+        else if(Input.GetKeyDown(KeyCode.S)) 
+        {
+            enemy.health -= 100;
+        }
+    }
+
+
 }
