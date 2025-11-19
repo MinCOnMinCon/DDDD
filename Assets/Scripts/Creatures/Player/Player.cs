@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using UnityEngine;
 
@@ -17,12 +18,15 @@ public class Player : Creature
     private Indicator indicator;
     private HandsManager handsManager;
     private RollButtonConnector rollButtonConnector;
+    private DestinyTokenField destinyTokenField;
+
+    private bool rollButtonFlag = false;
+    private bool destinyTokenFlag = false;
 
    
     IEnumerator MyRoutine()
     {
-        
-        // 아무때나 눌리는 거 방지할 플래그 필요
+        rollButtonFlag = true;
         enemy.ActionStart(); //- 적의 행동 보여줌. 
         yield return new WaitForSeconds(2f);
         RollDice();// 주사위 굴리기
@@ -31,22 +35,29 @@ public class Player : Creature
         yield return new WaitForSeconds(2f);
         ApplyDice(); // 주사위 결과보고 각 눈의 효과 적용
         diceResultDisplayer.ResultUpdate(diceResults); // 주사위 결과를 UI에 업데이트
-        yield return new WaitForSeconds(2f);
-        //DestinySelect() //- 운명토큰 얼마나 써서 몇개 돌릴지 결정
+        LogEvent.onLog?.Invoke("당신은 사용할 운명 토큰의 수를 써야 한다.\n" +
+            "(사용할 토큰이 없다면 Enter를 누르세요)");
+        yield return new WaitUntil(() => destinyTokenFlag);
         handsManager.ApplyFourHands(this, (Monster)enemy); //- 서브 족보외 족보들 적용, 
+        yield return new WaitForSeconds(1f);
         UpdateIndicator();
         Attack(); //- 적을 공격
+        yield return new WaitForSeconds(1f);
         enemy.Attack(); // - 적의 공격
         
         ResetTurnValues(); // 턴에 초기화해야 할 값 초기화 
         UpdateIndicator();
 
-
+        
     }
     
     public void RollButtonClicked() //굴리기 버튼 눌렀을 때 실행되는 것
     {
-        StartCoroutine(MyRoutine());
+        if (!rollButtonFlag)
+        {
+            StartCoroutine(MyRoutine());
+        }
+
 
     }
     
@@ -86,33 +97,65 @@ public class Player : Creature
     public override void ResetCombatValues()
     {
         base.ResetCombatValues();
-        destinyTokenCount = 0;
+        ResetTurnValues();
+        destinyTokenCount = initDestinyTokenCount;
         
     }
     public override void ResetTurnValues()
     {
         base.ResetTurnValues();
+        rollButtonFlag = false;
+        destinyTokenFlag = false;
         tempAttackCount = 0;
         handsManager.ResetAllHands();
         Debug.Log("플레이어 턴 수치 초기화");
     }
+    public override void Attack()
+    {
+        LogEvent.onLog?.Invoke($"당신은 {attackCount + tempAttackCount}번의 공격을 시도한다.");
+        for(int i = 0; i < attackCount+tempAttackCount; i++)
+        {
+            base.Attack();
+        }
+    }
 
     public void DestinySelect(int usingDestinyTokenCount)
     {
-        for (int i = 0; i < usingDestinyTokenCount; i++)
+        if(usingDestinyTokenCount <= 0)
         {
-            base.RollDice();
+            destinyTokenFlag = true;
+            return;
         }
-        destinyTokenCount -= usingDestinyTokenCount;
-        diceResultDisplayer.ResultUpdate(diceResults);
+        else if(usingDestinyTokenCount > destinyTokenCount)
+        {
+            return;
+        }
+        else
+        {
+            
+            LogEvent.onLog?.Invoke($"당신은 {usingDestinyTokenCount}개 만큼 주사위를 더 돌린다.");
+            int[] tempDiceResults = diceResults.ToArray();
+            for (int i = 0; i < usingDestinyTokenCount; i++)
+            {
+                
+                base.RollDice();
+            }
+            ApplyDice();
+            destinyTokenCount -= usingDestinyTokenCount;
+            UpdateIndicator();
+            destinyTokenFlag = true;
+        }
     }
     protected override void Awake()
     {
         base.Awake();
         
-        destinyTokenCount = 0;
+        destinyTokenCount = initDestinyTokenCount;
+        attackCount = 1;
+        tempAttackCount = 0;
         handsManager = GetComponent<HandsManager>();
         rollButtonConnector = GetComponent<RollButtonConnector>();
+        destinyTokenField = GetComponent<DestinyTokenField>();
         name = "당신";
         GameObject.Find("HandsUI").GetComponent<HandsUIManager>().SetHandsManager(handsManager);
 
@@ -134,7 +177,7 @@ public class Player : Creature
     {
         diceResultDisplayer = GameObject.Find("DiceResults").GetComponent<DiceResultDisplayer>();
         indicator = GameObject.Find("Indicator").GetComponent<Indicator>();
-        
+        destinyTokenField.ConnectDestinyTokenField(this);
         rollButtonConnector.ConnectRollButton(this);
     }
 
@@ -155,6 +198,7 @@ public class Player : Creature
         else if(Input.GetKeyDown(KeyCode.S)) 
         {
             enemy.health -= 100;
+            enemy.TakeDamage(1);
         }
     }
 

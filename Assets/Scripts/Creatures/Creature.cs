@@ -134,7 +134,7 @@ public abstract class Creature : MonoBehaviour
     protected abstract void Died();
 
 
-    public void Attack()
+    public virtual void Attack()
     {
         LogEvent.onLog?.Invoke($"{this.name}은(는) 공격했다.");
         attackPrevTurn = enemy.TakeDamage(attackValue);// 이전 턴 데미지만 계산해야 하니 += 에서 =로 바꿈
