@@ -18,8 +18,7 @@ public class LogManager : MonoBehaviour
     [SerializeField]
     private GameObject logPrefab;
     [SerializeField]
-    private int maxLogs = 9;
-
+    private int maxLogs = 15;
 
     private ScrollRect scrollRect;
     private List<GameObject> logs = new List<GameObject>();

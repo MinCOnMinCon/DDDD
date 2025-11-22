@@ -32,17 +32,30 @@ public class Player : Creature
         RollDice();// 주사위 굴리기
         RollPenaltyDice();//- 패널티 주사위 굴리기
         handsManager.ApplySubHands(this, (Monster)enemy); // 서브 족보 적용
+
+
         yield return new WaitForSeconds(2f);
         ApplyDice(); // 주사위 결과보고 각 눈의 효과 적용
         diceResultDisplayer.ResultUpdate(diceResults); // 주사위 결과를 UI에 업데이트
         LogEvent.onLog?.Invoke("당신은 사용할 운명 토큰의 수를 써야 한다.\n" +
             "(사용할 토큰이 없다면 입력창을 누르고 Enter를 누르세요)");
+
+
         yield return new WaitUntil(() => destinyTokenFlag);
         handsManager.ApplyFourHands(this, (Monster)enemy); //- 서브 족보외 족보들 적용, 
-        yield return new WaitForSeconds(1f);
+
+
+        yield return new WaitForSeconds(2f);
         UpdateIndicator();
-        Attack(); //- 적을 공격
-        yield return new WaitForSeconds(1f);
+        if ( Attack() ) //적을 공격
+        {
+            ResetTurnValues(); 
+            UpdateIndicator();
+            yield break;
+        }
+
+
+        yield return new WaitForSeconds(2f);
         enemy.Attack(); // - 적의 공격
         
         ResetTurnValues(); // 턴에 초기화해야 할 값 초기화 
@@ -75,9 +88,10 @@ public class Player : Creature
     }
     protected override void RollDice()
     {
-        for (int i = 0; i  < totalDiceCount + tempDiceCount; i++)
+       for(int i = 0; i < tempDiceCount+totalDiceCount; i++)
         {
             base.RollDice();
+
         }
         LogEvent.onLog?.Invoke("당신은 주사위를 굴렸다...");
         
@@ -109,13 +123,15 @@ public class Player : Creature
         tempAttackCount = 0;
         handsManager.ResetAllHands();
     }
-    public override void Attack()
+    public override bool Attack()
     {
+        bool isEnemyDied = false;
         LogEvent.onLog?.Invoke($"당신은 {attackCount + tempAttackCount}번의 공격을 시도한다.");
         for(int i = 0; i < attackCount+tempAttackCount; i++)
         {
-            base.Attack();
+            isEnemyDied = base.Attack();
         }
+        return isEnemyDied;
     }
 
     public void DestinySelect(int usingDestinyTokenCount)
@@ -133,7 +149,6 @@ public class Player : Creature
         {
             
             LogEvent.onLog?.Invoke($"당신은 {usingDestinyTokenCount}개 만큼 주사위를 더 돌린다.");
-            int[] tempDiceResults = diceResults.ToArray();
             for (int i = 0; i < usingDestinyTokenCount; i++)
             {
                 
@@ -192,12 +207,12 @@ public class Player : Creature
         if (Input.GetKeyDown(KeyCode.I))
         {
             health -= 100;
-            TakeDamage(1);
+            TakeDamage(100);
         }
         else if(Input.GetKeyDown(KeyCode.S)) 
         {
             enemy.health -= 100;
-            enemy.TakeDamage(1);
+            enemy.TakeDamage(100);
         }
     }
 

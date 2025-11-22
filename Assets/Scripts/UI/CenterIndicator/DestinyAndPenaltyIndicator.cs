@@ -17,8 +17,8 @@ public class DestinyAndPenaltyIndicator : MonoBehaviour
     void Awake()
     {
         DestinyAndPenaltyArr = new TMPro.TextMeshProUGUI[2];
-        DestinyAndPenaltyArr[0] = transform.Find("DestinyTokenText").GetComponent<TextMeshProUGUI>();
-        DestinyAndPenaltyArr[1] = transform.Find("PenaltyDiceText").GetComponent<TextMeshProUGUI>();
+        DestinyAndPenaltyArr[0] = transform.Find("DestinyToken/DestinyTokenNum").GetComponentInChildren<TextMeshProUGUI>();
+        DestinyAndPenaltyArr[1] = transform.Find("PenaltyDice/PenaltyDiceNum").GetComponent<TextMeshProUGUI>();
 
     }
 

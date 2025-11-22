@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: "Hands_2_\uACF5\uACA9\uC801_\uBC29\uC5B4"
   m_EditorClassIdentifier: 
   _handsName: "\uACF5\uACA9\uC801 \uBC29\uC5B4"
-  _description: "4\uAC00 \uB450 \uAC1C / 5\uAC00 \uB450 \uAC1C\n2 1\uAC1C \uCD94\uAC00
-    / 3 1\uAC1C \uCD94\uAC00"
+  _description: "4\uAC00 \uB450 \uAC1C => 2 1\uAC1C \uCD94\uAC00\n5\uAC00 \uB450
+    \uAC1C => 3 1\uAC1C \uCD94\uAC00"
   _type: 4
   _key: 2

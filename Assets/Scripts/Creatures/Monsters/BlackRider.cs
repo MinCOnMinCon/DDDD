@@ -12,10 +12,10 @@ public class BlackRider : Monster
         {
             
             case 0:
-                enemy.tempDiceCount -= 2;
+                enemy.tempDiceCount -= 1;
                 attackValue = 7;
                 defenseValue = 7;
-                log += $"{this.name}은 저울을 기울인다.. | 주사위 -2\n" +
+                log += $"{this.name}은 저울을 기울인다.. | 주사위 -1\n" +
                     $"{this.name}의 공격력 : {attackValue} | {this.name}의 방어력 : {defenseValue}";
                 break;
             case 1:

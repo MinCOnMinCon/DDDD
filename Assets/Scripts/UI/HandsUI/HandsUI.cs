@@ -31,6 +31,7 @@ public class HandsUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     }
     public void OnPointerEnter(PointerEventData eventData)
     {
+        Debug.Log("AA");
         ToolTipManager.toolTipManager.ToolTipShow(handsName.text, description);
 
     }

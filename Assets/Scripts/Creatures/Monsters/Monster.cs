@@ -21,7 +21,7 @@ public class Monster : Creature
     {
         enemy.ResetCombatValues();
         onMonsterDied?.Invoke();
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(4f);
         MonsterManager.instance.DieMonster();
         Destroy(gameObject);
     }

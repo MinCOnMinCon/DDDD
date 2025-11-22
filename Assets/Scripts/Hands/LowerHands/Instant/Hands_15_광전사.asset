@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: "Hands_15_\uAD11\uC804\uC0AC"
   m_EditorClassIdentifier: 
   _handsName: "\uAD11\uC804\uC0AC"
-  _description: "5 \u22651 & 1 \u22652\n\uACF5\uACA9 \uD69F\uC218 +2, \uD328\uB110\uD2F0
+  _description: "5 \u22651 && 1 \u22652\n\uACF5\uACA9 \uD69F\uC218 +2, \uD328\uB110\uD2F0
     +2"
   _type: 0
   _key: 15

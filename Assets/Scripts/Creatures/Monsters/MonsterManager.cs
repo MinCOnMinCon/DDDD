@@ -17,9 +17,18 @@ public class MonsterManager : MonoBehaviour
     public void SpawnMonster(int sceneNum)
     {
         curMonster = Instantiate(monsters[sceneNum], transform);
+        FitToParent(curMonster.transform);
 
     }
- 
+    private void FitToParent(Transform child)
+    {
+        Vector3 parentSize = transform.GetComponent<SpriteRenderer>().bounds.size;
+        Vector3 childSize = child.GetComponent<SpriteRenderer>().bounds.size;
+
+        float scale = parentSize.x / childSize.x;
+        child.localScale = new Vector3(scale, scale, 1);
+    }
+
     public void DestroyMonster()
     {
         Destroy(curMonster);

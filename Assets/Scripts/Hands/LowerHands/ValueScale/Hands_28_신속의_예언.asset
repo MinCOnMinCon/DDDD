@@ -13,7 +13,6 @@ MonoBehaviour:
   m_Name: "Hands_28_\uC2E0\uC18D\uC758_\uC608\uC5B8"
   m_EditorClassIdentifier: 
   _handsName: "\uC2E0\uC18D\uC758 \uC608\uC5B8"
-  _description: "3\xB74\xB75 \uAC01\uAC01 1\uAC1C\n\uACF5\uACA9 \uD69F\uC218 \xD72
-    \uC608\uC5B8"
+  _description: "3,4,5 \uAC01\uAC01 1\uAC1C\n\uACF5\uACA9 \uD69F\uC218 \xD72 \uC608\uC5B8"
   _type: 0
   _key: 28

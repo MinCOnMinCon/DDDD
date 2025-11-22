@@ -11,7 +11,7 @@ public partial class HandsManager : MonoBehaviour
     private Dictionary<int, Action<Player, Monster>> executionFuncs = new Dictionary<int, Action<Player, Monster>>();
     [SerializeField]
     private HandsDatabase handsDatabase;
-
+    private int numOfReward = 2;
     public class HandsInstance{
         public HandsInstance(Hands hand, bool isActive, HandsUI ui)
         {
@@ -214,13 +214,39 @@ public partial class HandsManager : MonoBehaviour
         { 34, Execution34 },
         };
     }
-   
+    private void OnEnable()
+    {
+        Monster.onMonsterDied += GetRewardHands;
+    }
+    private void GetRewardHands()
+    {
+        LogEvent.onLog?.Invoke("당신의 보상은...");
+        for(int i = 0; i < numOfReward; i++)
+        {
+            int handsKey = UnityEngine.Random.Range(1, 38);
+            while(handsKey == 23  ||  handsKey == 35)
+            {
+                handsKey = UnityEngine.Random.Range(1, 38);
+            }
+            Hands rewardHand= handsDatabase.handsList[handsKey];
+            Debug.Log(handsKey);
+            AddHand(rewardHand);
+            LogEvent.onLog?.Invoke($"{rewardHand.handsName}이다..!");
+        }
+
+
+
+    }
     private void Start()
     {
         AddHand(handsDatabase.handsList[9]);
         AddHand(handsDatabase.handsList[1]);
         AddHand(handsDatabase.handsList[2]);
 
+    }
+    private void OnDisable()
+    {
+        Monster.onMonsterDied -= GetRewardHands;
     }
 }
 

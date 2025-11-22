@@ -17,7 +17,7 @@ public abstract class Creature : MonoBehaviour
         get => _health;
         set => _health = Mathf.Max(0,value);
     }
-    protected int totalDiceCount;
+    public int totalDiceCount { get; set; }
     private int _tempDiceCount;
     public int tempDiceCount
     {
@@ -88,10 +88,12 @@ public abstract class Creature : MonoBehaviour
 
     protected virtual void RollDice() // 주어진 diceRatios 확률로 단일 주사위를 굴려 나온 눈을 diceResults에 저장
     {
+
+
         int eye = UnityEngine.Random.Range(0, diceRatios[0]);
         int cumulativeValue = 0;
 
-        for(int i = 1; i < totalDiceCount + tempDiceCount; i++)
+        for(int i = 1; i < 7; i++)
         {
             cumulativeValue += diceRatios[i];
             if(cumulativeValue > eye)
@@ -140,17 +142,18 @@ public abstract class Creature : MonoBehaviour
     protected abstract void Died();
 
 
-    public virtual void Attack()
+    public virtual bool Attack()
     {
         LogEvent.onLog?.Invoke($"{this.name}은(는) 공격했다.");
         attackPrevTurn = enemy.TakeDamage(attackValue);// 이전 턴 데미지만 계산해야 하니 += 에서 =로 바꿈
-       
+        return isDied;
     }
    
     // 파라미터로 온 damage에서 deffenseValue를 뺀 값만큼 데미지를 입음
     // 입은 데미지만큼 damagedPrevTurn에 저장하고 리턴함 => 리턴한 건 적의 attackPrevTurn에 저장
     public int TakeDamage(int damage) 
     {
+        
         
         damagedPrevTurn = damage - defenseValue; // 이전 턴 데미지만 계산해야 하니 += 에서 =로 바꿈
         if (damagedPrevTurn > 0)
@@ -164,6 +167,7 @@ public abstract class Creature : MonoBehaviour
             if (health <= 0)
             {
                 Died();
+                isDied = true;
             }
             return damagedPrevTurn;
         }
@@ -193,6 +197,7 @@ public abstract class Creature : MonoBehaviour
         diceResults = new int[7];
         diceRatios = new int[7];
         diceRatios[0] = 6;
+        isDied = false;
         for (int i = 1; i < 7; i++)
         {
   

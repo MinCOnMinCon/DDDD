@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: "Hands_24_\uD53C\uC758_\uC5F0\uD68C"
   m_EditorClassIdentifier: 
   _handsName: "\uD53C\uC758 \uC5F0\uD68C"
-  _description: "\uD328\uB110\uD2F0 \u22653 + (2\xB73 \u22651)\n\uACF5\uACA9\uC758
-    20% \uCCB4\uB825 \uD68C\uBCF5"
+  _description: "\uD328\uB110\uD2F0 \u22653 + (2,3 \u22651)\n\uACF5\uACA9\uC758 20%
+    \uCCB4\uB825 \uD68C\uBCF5"
   _type: 0
   _key: 24
