@@ -25,7 +25,7 @@ public class PlayerManager : MonoBehaviour
     {
         Player temp = player.GetComponent<Player>();
         
-        temp.UpdateEnemy();
+        temp.UpdateEnemy(); 
         temp.UpdateIndicator();
         
     }

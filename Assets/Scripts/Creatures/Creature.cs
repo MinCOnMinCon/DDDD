@@ -21,8 +21,8 @@ public abstract class Creature : MonoBehaviour
     private int _tempDiceCount;
     public int tempDiceCount
     {
-        get => _health;
-        set => _health = Mathf.Max(-(initDiceCount-1), value);
+        get => _tempDiceCount;
+        set => _tempDiceCount = Mathf.Max(-(initDiceCount-1), value);
     }
     public int penaltyDiceCount { get; set; }
     public bool isDied { get; protected set; }
@@ -186,6 +186,7 @@ public abstract class Creature : MonoBehaviour
     protected virtual void Awake()
     {
         health = maxHp;
+
         totalDiceCount = initDiceCount;
         penaltyDiceCount = initPenaltyDice;
         tempDiceCount = 0;

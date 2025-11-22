@@ -36,7 +36,7 @@ public class Player : Creature
         ApplyDice(); // 주사위 결과보고 각 눈의 효과 적용
         diceResultDisplayer.ResultUpdate(diceResults); // 주사위 결과를 UI에 업데이트
         LogEvent.onLog?.Invoke("당신은 사용할 운명 토큰의 수를 써야 한다.\n" +
-            "(사용할 토큰이 없다면 Enter를 누르세요)");
+            "(사용할 토큰이 없다면 입력창을 누르고 Enter를 누르세요)");
         yield return new WaitUntil(() => destinyTokenFlag);
         handsManager.ApplyFourHands(this, (Monster)enemy); //- 서브 족보외 족보들 적용, 
         yield return new WaitForSeconds(1f);
@@ -108,7 +108,6 @@ public class Player : Creature
         destinyTokenFlag = false;
         tempAttackCount = 0;
         handsManager.ResetAllHands();
-        Debug.Log("플레이어 턴 수치 초기화");
     }
     public override void Attack()
     {
@@ -146,21 +145,7 @@ public class Player : Creature
             destinyTokenFlag = true;
         }
     }
-    protected override void Awake()
-    {
-        base.Awake();
-        
-        destinyTokenCount = initDestinyTokenCount;
-        attackCount = 1;
-        tempAttackCount = 0;
-        handsManager = GetComponent<HandsManager>();
-        rollButtonConnector = GetComponent<RollButtonConnector>();
-        destinyTokenField = GetComponent<DestinyTokenField>();
-        name = "당신";
-        GameObject.Find("HandsUI").GetComponent<HandsUIManager>().SetHandsManager(handsManager);
-
-
-    }
+ 
     protected override void Died()
     {
         handsManager.DeleteAllHands();
@@ -180,7 +165,21 @@ public class Player : Creature
         destinyTokenField.ConnectDestinyTokenField(this);
         rollButtonConnector.ConnectRollButton(this);
     }
+    protected override void Awake()
+    {
+        base.Awake();
 
+        destinyTokenCount = initDestinyTokenCount;
+        attackCount = 1;
+        tempAttackCount = 0;
+        handsManager = GetComponent<HandsManager>();
+        rollButtonConnector = GetComponent<RollButtonConnector>();
+        destinyTokenField = GetComponent<DestinyTokenField>();
+        name = "당신";
+        GameObject.Find("HandsUI").GetComponent<HandsUIManager>().SetHandsManager(handsManager);
+
+
+    }
 
     void Start() // awake로 하면 업데이트 순서 꼬여서 start에 있는 애들임
     {

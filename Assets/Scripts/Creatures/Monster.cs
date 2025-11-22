@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,7 +6,7 @@ using UnityEngine;
 public class Monster : Creature
 {
     protected int patternNum;
- 
+    public static Action onMonsterDied;
     protected override Creature FindEnemy()
     {
         return GameObject.FindWithTag("Player").GetComponent<Player>();
@@ -16,14 +17,17 @@ public class Monster : Creature
     {
         
     }
-    protected override void Died() 
+    IEnumerator DieRoutine()
     {
         enemy.ResetCombatValues();
-        // 보상 주기
-        // 사망 멘트 출력
-        // 위 두 함수 코루틴으로 실행
+        onMonsterDied?.Invoke();
+        yield return new WaitForSeconds(2f);
         MonsterManager.instance.DieMonster();
         Destroy(gameObject);
+    }
+    protected override void Died() 
+    {
+        StartCoroutine(DieRoutine());
     }
     protected override void Awake()
     {

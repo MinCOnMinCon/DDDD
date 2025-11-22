@@ -60,8 +60,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5175aab2d26b5c141a9be77892c04b8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hands1: {fileID: 11400000, guid: bd0fd16fd07a9824a8b7c087f31ea06b, type: 2}
-  hands2: {fileID: 11400000, guid: 39159e02165012e49b5276d11d139fa1, type: 2}
+  handsDatabase: {fileID: 11400000, guid: 708f9718c114e7c4b898e25dd4215d59, type: 2}
 --- !u!114 &-3202292291948758582
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MonsterManager : MonoBehaviour
@@ -16,7 +17,9 @@ public class MonsterManager : MonoBehaviour
     public void SpawnMonster(int sceneNum)
     {
         curMonster = Instantiate(monsters[sceneNum], transform);
+
     }
+ 
     public void DestroyMonster()
     {
         Destroy(curMonster);
