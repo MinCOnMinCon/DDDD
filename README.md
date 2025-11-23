@@ -208,6 +208,8 @@ https://openai.com/ko-KR/policies/row-terms-of-use/?utm_source=chatgpt.com
 콘텐츠 소유권. 관련 법률상 허용되는 한도 내에서, 귀하와 OpenAI 중 귀하가 (a) 인풋에 대한 귀하의 소유권을 유지하고 (b) 아웃풋을 소유합니다. 당사는 아웃풋에 대한 당사의 권리, 소유권 및 이권이 있다면 그 모두 이로써 귀하에게 양도합니다. 
 </details>
 
+- **사용 라이선스** : MIT License
+
 
 
 
