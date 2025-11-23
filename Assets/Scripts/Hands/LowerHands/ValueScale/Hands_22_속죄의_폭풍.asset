@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: "Hands_22_\uC18D\uC8C4\uC758_\uD3ED\uD48D"
   m_EditorClassIdentifier: 
   _handsName: "\uC18D\uC8C4\uC758 \uD3ED\uD48D"
-  _description: "\uD328\uB110\uD2F0 \u22653 + (4 \uB610\uB294 5 \u22651)\n\uACF5\uACA9
-    = \uD328\uB110\uD2F0 \xD7 5, \uD328\uB110\uD2F0 -1"
+  _description: "\uD328\uB110\uD2F0 \u22653 + (4 \uB610\uB294 5 \u22651)\n\uACF5\uACA9\uC218\uCE58\uC5D0 
+    (\uD328\uB110\uD2F0 * 5)\uB97C \uB354\uD55C\uB2E4., \uD328\uB110\uD2F0 -1"
   _type: 0
   _key: 22

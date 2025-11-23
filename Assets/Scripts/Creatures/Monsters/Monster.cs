@@ -21,13 +21,14 @@ public class Monster : Creature
     {
         enemy.ResetCombatValues();
         onMonsterDied?.Invoke();
-        yield return new WaitForSeconds(4f);
+        LogEvent.onLog?.Invoke("다시 횃불은 켜졌고, 당신은 그쪽으로 향한다... ");
+        yield return new WaitForSeconds(6f);
         MonsterManager.instance.DieMonster();
         Destroy(gameObject);
     }
     protected override void Died() 
     {
-        StartCoroutine(DieRoutine());
+        StartCoroutine(DieRoutine());   
     }
     protected override void Awake()
     {

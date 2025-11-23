@@ -145,13 +145,14 @@ public abstract class Creature : MonoBehaviour
     public virtual bool Attack()
     {
         LogEvent.onLog?.Invoke($"{this.name}은(는) 공격했다.");
-        attackPrevTurn = enemy.TakeDamage(attackValue);// 이전 턴 데미지만 계산해야 하니 += 에서 =로 바꿈
-        return isDied;
+        bool isEnemyDied;
+        (attackPrevTurn, isEnemyDied) = enemy.TakeDamage(attackValue);// 이전 턴 데미지만 계산해야 하니 += 에서 =로 바꿈
+        return isEnemyDied;
     }
    
     // 파라미터로 온 damage에서 deffenseValue를 뺀 값만큼 데미지를 입음
     // 입은 데미지만큼 damagedPrevTurn에 저장하고 리턴함 => 리턴한 건 적의 attackPrevTurn에 저장
-    public int TakeDamage(int damage) 
+    public (int, bool) TakeDamage(int damage) 
     {
         
         
@@ -169,12 +170,12 @@ public abstract class Creature : MonoBehaviour
                 Died();
                 isDied = true;
             }
-            return damagedPrevTurn;
+            return (damagedPrevTurn, isDied);
         }
         else
         {
             LogEvent.onLog?.Invoke($"{this.name}은(는) 아무런 데미지도 받지 않았다.");
-            return 0;
+            return (damagedPrevTurn, isDied);
         }
     }
     // 적 객체의 스크립트를 가져오는 함수. player는 monster의 스크립트를, monster는 player의 스크립트를 가져온다.

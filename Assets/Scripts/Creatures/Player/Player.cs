@@ -209,10 +209,20 @@ public class Player : Creature
             health -= 100;
             TakeDamage(100);
         }
-        else if(Input.GetKeyDown(KeyCode.S)) 
+        else if (Input.GetKeyDown(KeyCode.S))
         {
             enemy.health -= 100;
             enemy.TakeDamage(100);
+        }
+        else if (Input.GetKeyDown(KeyCode.D))
+        {
+            for(int i = 1; i< 7; i++)
+            {
+                diceResults[i] = 20;
+            }
+            enemy.predictionValue = 100;
+            tempAttackCount += 10;
+
         }
     }
 

@@ -52,8 +52,7 @@ public class UIManager : MonoBehaviour
     {
     
         startUI.SetActive(true);
-        PlayerManager.instance.DestroyPlayer();
-        MonsterManager.instance.DestroyMonster();
+        
         storyUI.SetActive(false);
         gameoverUI.SetActive(false);
     }
@@ -62,6 +61,8 @@ public class UIManager : MonoBehaviour
         combatUI.SetActive(false);
         storyUI.SetActive(false);
         storyUI.GetComponent<StoryTextManager>().ResetStory();
+        if (MonsterManager.instance.isMonsterExisted()) MonsterManager.instance.DestroyMonster();
+        if (PlayerManager.instance.isPlayerExisted()) PlayerManager.instance.DestroyPlayer();
         gameoverUI.GetComponent<GameOverUI>().SetGameoverText(playerDied);
         gameoverUI.SetActive(true);
 

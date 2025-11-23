@@ -18,8 +18,8 @@ public class MonsterManager : MonoBehaviour
     {
         curMonster = Instantiate(monsters[sceneNum], transform);
         FitToParent(curMonster.transform);
-
     }
+
     private void FitToParent(Transform child)
     {
         Vector3 parentSize = transform.GetComponent<SpriteRenderer>().bounds.size;
@@ -36,6 +36,10 @@ public class MonsterManager : MonoBehaviour
     public void DieMonster() 
     {
         uiManager.StoryConversion();
+    }
+    public bool isMonsterExisted()
+    {
+        return curMonster != null;
     }
     private void Awake()
     {

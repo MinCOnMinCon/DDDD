@@ -27,12 +27,17 @@ public class PlayerManager : MonoBehaviour
         
         temp.UpdateEnemy(); 
         temp.UpdateIndicator();
-        
     }
     public void DestroyPlayer()
     {
+        player.GetComponent<HandsManager>().DeleteAllHands();
         Destroy(player);
     }
+    public bool isPlayerExisted()
+    {
+        return player != null;
+    }
+    
     public void DiePlayer()
     {
         uiManager.GameoverConversion(true);

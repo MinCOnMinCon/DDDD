@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Sprites.Packer;
+
 
 public partial class HandsManager : MonoBehaviour
 {
@@ -174,6 +174,8 @@ public partial class HandsManager : MonoBehaviour
         { 32, Condition32 },
         { 33, Condition33 },
         { 34, Condition34 },
+        { 36, Condition36 },
+        { 37, Condition37 }
         };
 
         // --- 모든 Execution 등록 ---
@@ -212,6 +214,8 @@ public partial class HandsManager : MonoBehaviour
         { 32, Execution32 },
         { 33, Execution33 },
         { 34, Execution34 },
+        { 36, Execution36 },
+        { 37, Execution37 }
         };
     }
     private void OnEnable()
@@ -242,6 +246,16 @@ public partial class HandsManager : MonoBehaviour
         AddHand(handsDatabase.handsList[9]);
         AddHand(handsDatabase.handsList[1]);
         AddHand(handsDatabase.handsList[2]);
+
+        /*for(int i = 1; i < 38; i++)
+        {
+            if(i == 23 || i == 35)
+            {
+                continue;
+            }
+            AddHand(handsDatabase.handsList[i]);
+        }*/
+
 
     }
     private void OnDisable()
