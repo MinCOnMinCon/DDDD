@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 069d0bd1fabea1140998c176d4bb7b85, type: 3}
+  m_Name: Hands_21
+  m_EditorClassIdentifier: 
+  _handsName: "\uC790\uAE30 \uC2E4\uD604\uC801 \uC608\uC5B8"
+  _description: "\uB208 6 >= 3 and \uD328\uB110\uD2F0 \uC8FC\uC0AC\uC704 >= 2\n\uBAA8\uB4E0
+    \uC6B4\uBA85 \uD1A0\uD070\uC744 \uD328\uB110\uD2F0 \uC8FC\uC0AC\uC704\uB85C \uBCC0\uD658
+    -> (\uBCC0\uD658 \uC218 * 3) \uACF5\uACA9 \uC99D\uAC00"
+  _type: 1
+  _key: 21

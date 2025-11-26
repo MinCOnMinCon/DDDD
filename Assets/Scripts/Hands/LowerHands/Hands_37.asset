@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 069d0bd1fabea1140998c176d4bb7b85, type: 3}
+  m_Name: Hands_37
+  m_EditorClassIdentifier: 
+  _handsName: "\uB2E4\uC774\uC2A4\uC758 \uC5F0\uAE08\uC220"
+  _description: "\uB208 2 >= 1 and \uB208 3 >= 1 and \uB208 4 >= 1 and \uB208 5 >=
+    1\n\uACF5\uACA9 +9, \uBC29\uC5B4 +9"
+  _type: 0
+  _key: 37
